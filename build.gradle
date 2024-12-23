@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'org.graalvm.buildtools.native' version '0.9.23'
+}
+
+group = 'xyz.sadiulhakim'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+     implementation 'org.slf4j:slf4j-api:2.0.9'
+     runtimeOnly 'ch.qos.logback:logback-classic:1.4.11'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.18.1'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+graalvmNative {
+    binaries {
+        main {
+            mainClass = 'xyz.sadiulhakim.Main'
+            buildArgs.add('--no-fallback')
+            buildArgs.add('-H:+ReportUnsupportedElementsAtRuntime')
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
